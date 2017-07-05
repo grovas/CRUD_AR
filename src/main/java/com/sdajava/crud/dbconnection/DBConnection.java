@@ -2,8 +2,6 @@ package com.sdajava.crud.dbconnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public enum DBConnection {
     INSTANCE;
@@ -14,7 +12,7 @@ public enum DBConnection {
             "useSSL=false&useJDBCCompliantTimezoneShift=" +
             "true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public final static String USER="root";
-    public final static String PASS="";
+    public final static String PASS="kkeczap";
 
     public static Connection setJdbcConnection () {
         Connection connection = null;
@@ -26,15 +24,20 @@ public enum DBConnection {
                     DriverManager.getConnection(
                             DB_URL,USER,PASS);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception ex){
             ex.printStackTrace();
         }
         return connection;
     }
 
-    private DBConnection(){
-        System.out.println("Test");
+    private DBConnection(){}
+
+    /**
+     * Method used by unit test - to test sigleton objects
+     * @return INSTANCE of class
+     */
+    public static DBConnection getInstance(){
+        return INSTANCE;
     }
+
 }

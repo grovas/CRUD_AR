@@ -4,17 +4,14 @@ import com.sdajava.crud.dbconnection.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddNewPosition {
-    public static void sqlInsertRow() {
-        Connection connection
-                = DBConnection.INSTANCE.setJdbcConnection();
+    public static void sqlInsertRow(String sql) {
+        Connection connection = DBConnection.setJdbcConnection();
         Scanner scanner = new Scanner(System.in);
-        String sqlUpdate = "INSERT INTO books (title,author,price, page_count) values (?,?,?,?)";
-            try {
-            PreparedStatement stateUpdate = connection.prepareStatement(sqlUpdate);
+        try {
+            PreparedStatement stateUpdate = connection.prepareStatement(sql);
             System.out.println("Podaj tytuł ksiazki: ");
             String title = scanner.nextLine();
             stateUpdate.setString(1, title);
@@ -31,8 +28,6 @@ public class AddNewPosition {
             stateUpdate.executeUpdate();
             stateUpdate.close();
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

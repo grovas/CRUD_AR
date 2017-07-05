@@ -8,13 +8,12 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DeletePosition {
-    public static void sqlDeleteRow() {
+    public static boolean sqlDeleteRow(String sql) {
         Connection connection
                 = DBConnection.INSTANCE.setJdbcConnection();
         Scanner scanner = new Scanner(System.in);
-        String sqlDelete = "DELETE FROM books WHERE id=?";
         try {
-            PreparedStatement stateUpdate = connection.prepareStatement(sqlDelete);
+            PreparedStatement stateUpdate = connection.prepareStatement(sql);
             System.out.println("Podaj id ksiazki do usuniecia: ");
             int idRow = scanner.nextInt();
             stateUpdate.setInt(1, idRow);
@@ -22,10 +21,10 @@ public class DeletePosition {
             stateUpdate.executeUpdate();
             stateUpdate.close();
             connection.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            return false;
         }
     }
 }

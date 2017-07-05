@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Menu {
 
     public static void mainMenu () throws Exception {
-        int option = 0;
+
         Scanner in = new Scanner(System.in);
 
         boolean optionFlag = true;
@@ -17,6 +17,7 @@ public class Menu {
         while (optionFlag) {
             GUI.showMenu();
             boolean flag = true;
+            int option = 0;
 
             while (flag) {
                 try {
@@ -27,15 +28,25 @@ public class Menu {
                     in.next();
                 }
             }
-
-            switch (option) {
-                case 1: SelectAllPositions.sqlSelectAll(); break;
-                case 2: UpdatePosition.sqlUpdateRow();
-                        System.out.println("Uaktualniasz cene ksiazki"); break;
-                case 3: AddNewPosition.sqlInsertRow(); break;
-                case 4: DeletePosition.sqlDeleteRow(); break;
-                case 0: optionFlag = false; break;
-            }
+            optionFlag = receiveInputBySwitch(option);
         }
+    }
+
+    public static boolean receiveInputBySwitch (int option) {
+        String sqlDelete = "DELETE FROM books WHERE id=?";
+        String sqlSelectAll = "SELECT * FROM books";
+        String sqlAddNew = "INSERT INTO books (title,author,price, page_count) values (?,?,?,?)";
+        String sqlUpdate = "UPDATE books SET price=? WHERE id=?";
+
+        boolean optionFlag = true;
+        switch (option) {
+            case 1: SelectAllPositions.sqlSelectAll(sqlSelectAll); break;
+            case 2: UpdatePosition.sqlUpdateRow(sqlUpdate);
+                System.out.println("Uaktualniasz cene ksiazki"); break;
+            case 3: AddNewPosition.sqlInsertRow(sqlAddNew); break;
+            case 4: DeletePosition.sqlDeleteRow(sqlDelete); break;
+            case 0: optionFlag = false; break;
+        }
+        return optionFlag;
     }
 }

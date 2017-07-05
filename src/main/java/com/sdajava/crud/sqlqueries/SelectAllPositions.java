@@ -8,30 +8,36 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SelectAllPositions {
-    public static void sqlSelectAll () {
+
+    public static ResultSet sqlSelectAll (String sql) {
         Connection connection
-                = DBConnection.INSTANCE.setJdbcConnection();
+                = DBConnection.setJdbcConnection();
+        ResultSet resultSet = null;
+
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =
-                    statement.executeQuery("select * from books");
+            resultSet = statement.executeQuery(sql);
 
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id") +
-                        " " + resultSet.getString("title") +
-                        " " + resultSet.getString("author") +
-                        " " + resultSet.getInt("page_count") +
-                        " " + resultSet.getDouble("price") + " zł" +
-                        " " + resultSet.getString("category") +
-                        " " + resultSet.getString("isbn"));
-            }
-            resultSet.close();
+            printSQLResult(resultSet);
             statement.close();
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return resultSet;
+    }
+
+    public static void printSQLResult(ResultSet result) throws SQLException {
+        ResultSet resultSet = result;
+        while (resultSet.next()) {
+            System.out.println(resultSet.getInt("id") +
+                    " " + resultSet.getString("title") +
+                    " " + resultSet.getString("author") +
+                    " " + resultSet.getInt("page_count") +
+                    " " + resultSet.getDouble("price") + " zł" +
+                    " " + resultSet.getString("category") +
+                    " " + resultSet.getString("isbn"));
+        }
+        resultSet.close();
     }
 }

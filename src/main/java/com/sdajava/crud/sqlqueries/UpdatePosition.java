@@ -4,17 +4,15 @@ import com.sdajava.crud.dbconnection.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UpdatePosition {
-    public static void sqlUpdateRow () {
+    public static void sqlUpdateRow (String sql) {
         Connection connection
                 = DBConnection.INSTANCE.setJdbcConnection();
         Scanner scanner = new Scanner(System.in);
-        String sqlUpdate = "UPDATE books SET price=? WHERE id=?";
         try {
-            PreparedStatement stateUpdate = connection.prepareStatement(sqlUpdate);
+            PreparedStatement stateUpdate = connection.prepareStatement(sql);
             System.out.println("Podaj id ksiazki do edycji: ");
             int idRow = scanner.nextInt();
             stateUpdate.setInt(2, idRow);
@@ -25,8 +23,6 @@ public class UpdatePosition {
             stateUpdate.executeUpdate();
             stateUpdate.close();
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
